@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.boschrexroth.com/ctrlx-automation/ctrlx-core/apps/package-manifest/package-manifest.v1.3.schema.json",
+  "version": "1.0.0",
+  "id": "testeflask",
+  "scopes-declaration": [
+    {
+      "identifier": "testeflask.web",
+      "name": "Python-Webserver",
+      "description": "ctrlX Data Layer access permissions over webpage",
+      "scopes": [
+        {
+          "identifier": "testeflask.web.r",
+          "name": "Read",
+          "description": "Only read commands can be submitted over webpage"
+        },
+        {
+          "identifier": "testeflask.web.rw",
+          "name": "Read and write",
+          "description": "Read and write commands can be submitted over webpage"
+        }
+      ]
+    }
+  ],
+  "services": {
+    "proxyMapping": [
+      {
+        "name": "testeflask.web",
+        "url": "/testeflask",
+        "binding": "unix://{$SNAP_DATA}/package-run/testeflask/web.sock",
+        "restricted": []
+      }
+    ]
+  },
+  "menus": {
+    "sidebar": [
+      {
+        "id": "testeflask",
+        "target": "_blank",
+        "title": "Python-Webserver",
+        "icon": "bosch-ic-worldwideweb",
+        "link": "/testeflask"
+      }
+    ],
+    "settings": [],
+    "overview": [
+      {
+        "id": "testeflask",
+        "title": "Python-Webserver",
+        "icon": "bosch-ic-worldwideweb",
+        "link": "/testeflask"
+      }
+    ]
+  },
+  "configuration": {
+    "appDirectories": [
+      {
+        "name": "DadosRelatorios",
+        "description": "Arquivos gerados pelo Python",
+        "icon": "bosch-ic-directory",
+        "copyOnLoad": true
+      }
+    ]
+  }
+}

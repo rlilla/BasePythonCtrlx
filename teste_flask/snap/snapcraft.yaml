@@ -1,0 +1,71 @@
+name: testeflask
+title: Flask
+version: 1.0.0
+summary: Web server Sample written in Python for ctrlX
+description: |
+  This sample shows how to create a web server app in ctrlX
+base: core22
+confinement: strict
+grade: stable
+
+apps:
+  webserver:
+    command: bin/myproject.py
+    plugs:
+      - network-bind
+      - active-solution
+      - datalayer
+    slots:
+      - package-assets
+      - package-run
+    daemon: simple
+
+parts:
+  webserver:
+    plugin: python
+    source: .
+    stage-packages:
+      - libzmq5
+      - ctrlx-datalayer
+      - libsystemd-dev
+    python-packages:
+      - flask
+      - reportlab
+      - gunicorn
+      - matplotlib
+      - numpy
+      
+  configs:
+    plugin: dump
+    source: ./configs
+    organize:
+      'package-assets/*': package-assets/${SNAPCRAFT_PROJECT_NAME}/
+
+  www:
+    plugin: dump
+    source: ./templates
+    organize:
+      '*': templates/
+slots:
+  package-assets:
+    interface: content
+    content: package-assets
+    source:
+      read:
+        - $SNAP/package-assets/${SNAPCRAFT_PROJECT_NAME}
+  package-run:
+    interface: content
+    content: package-run
+    source:
+      write:
+        - $SNAP_DATA/package-run/${SNAPCRAFT_PROJECT_NAME}
+
+plugs:
+  active-solution:
+    interface: content
+    content: solutions
+    target: $SNAP_COMMON/solutions
+  datalayer:
+    interface: content
+    content: datalayer
+    target: $SNAP_DATA/.datalayer
